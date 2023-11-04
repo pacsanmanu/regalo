@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Regalo Sorpresa</title>
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #f7f7f7;
+  }
+  h1 {
+    font-size: 2.55em;
+    font-family: sans-serif;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+    transition: opacity 0.5s ease;
+  }
+  h1.hide {
+    opacity: 0;
+    pointer-events: none;
+  }
+  #gift-box {
+    width: 250px;
+    height: 250px;
+    background: url('./gift.png') no-repeat center center;
+    background-size: contain;
+    cursor: pointer;
+    transition: transform 0.3s ease, opacity 0.5s ease;
+  }
+  #gift-box.hide {
+    opacity: 0;
+    pointer-events: none; /* Desactiva la interacción con la caja */
+  }
+  #gift-image {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    filter: drop-shadow(4px 4px 1px rgba(0, 0, 0, 0.329));
+  }
+  #gift-image.show {
+    display: block;
+    animation: popIn 0.5s ease forwards;
+  }
+  #overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 500;
+  }
+  #overlay.fireworks {
+    background: url('./fireworks.svg') repeat center center;
+    animation: fireworks 1s ease-in-out forwards;
+  }
+  @keyframes fireworks {
+    from { background-size: 0; }
+    to { background-size: 100%; }
+  }
+  @keyframes popIn {
+    0% {
+      transform: translate(-50%, -50%) scale(0);
+      opacity: 0;
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+  }
+</style>
+</head>
+<body>
+
+<h1 id="header">¡Feliz cumpleaños mi amor!</h1>
+<div id="gift-box"></div>
+<div id="overlay"></div>
+<img id="gift-image" src="./img.png" alt="Imagen de regalo">
+
+<script>
+  var giftBox = document.getElementById('gift-box');
+  var giftImage = document.getElementById('gift-image');
+  var overlay = document.getElementById('overlay');
+  var header = document.getElementById('header');
+
+  giftBox.onclick = function() {
+    overlay.style.display = 'block';
+    overlay.classList.add('fireworks');
+    
+    giftBox.classList.add('hide');
+    header.classList.add('hide'); // Oculta el encabezado
+    
+    setTimeout(function() {
+      giftImage.classList.add('show');
+    }, 300); // La imagen de las zapatillas aparecerá después del efecto de la caja
+  };
+
+  overlay.onclick = function() {
+    giftImage.classList.remove('show');
+    overlay.classList.remove('fireworks');
+    
+    setTimeout(function() {
+      overlay.style.display = 'none';
+      giftBox.classList.remove('hide');
+      header.classList.remove('hide'); // Muestra el encabezado nuevamente
+    }, 500);
+  };
+</script>
+
+</body>
+</html>
